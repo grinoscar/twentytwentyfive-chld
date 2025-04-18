@@ -15,3 +15,26 @@ function wsb_2025_enqueue_styles() {
 }
 
 add_action('wp_enqueue_scripts', 'wsb_2025_enqueue_styles');
+
+/**
+ * WordPress function for redirecting users on login based on user role
+ */
+function wpdocs_my_login_redirect( $url, $request, $user ) {
+    if ( $user && is_object( $user ) && is_a( $user, 'WP_User' ) ) {
+        if ( $user->has_cap( 'administrator' ) ) {
+            $url = admin_url();
+        } else {
+            $url = home_url( '/' );
+        }
+    }
+    return $url;
+}
+
+add_filter( 'login_redirect', 'wpdocs_my_login_redirect', 10, 3 );
+
+add_action('after_setup_theme', 'remove_admin_bar');
+function remove_admin_bar() {
+  if (!current_user_can('administrator') && !is_admin()) {
+    add_filter('show_admin_bar', '__return_false');
+  }
+}
