@@ -38,3 +38,40 @@ function remove_admin_bar() {
     add_filter('show_admin_bar', '__return_false');
   }
 }
+
+class PlaceholderBlock {
+  function __construct($name) {
+    $this->name = $name;
+    add_action('init', [$this, 'onInit']);
+  }
+
+  function ourRenderCallback($attributes, $content) {
+    ob_start();
+    require get_theme_file_path("/our-blocks/{$this->name}.php");
+    return ob_get_clean();
+  }
+
+  function onInit() {
+    wp_register_script($this->name, get_stylesheet_directory_uri() . "/our-blocks/{$this->name}.js", array('wp-blocks', 'wp-editor'));
+    
+    register_block_type("ourblocktheme/{$this->name}", array(
+      'editor_script' => $this->name,
+      'render_callback' => [$this, 'ourRenderCallback']
+    ));
+  }
+}
+
+new PlaceholderBlock("header");
+
+function myallowedblocks($allowed_block_types, $editor_context) {
+  // If you are on a page/post editor screen
+  if (!empty($editor_context->post)) {
+    return $allowed_block_types;
+  }
+
+  // if you are on the FSE screen
+  return array('ourblocktheme/header', 'ourblocktheme/footer');
+}
+
+// Uncomment the line below if you actually want to restrict which block types are allowed
+//add_filter('allowed_block_types_all', 'myallowedblocks', 10, 2);
