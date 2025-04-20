@@ -7,9 +7,9 @@
       <nav class="main-navigation">
         <ul>
           <li class="page-item"><a href="<?php echo esc_url(site_url('/')); ?>">Home</a></li>
-          <li class="page-item"><a href="<?php echo esc_url(site_url('/sample-page')); ?>">About</a></li>
           <li class="page-item"><a href="<?php echo esc_url(site_url('/events')); ?>">Events</a></li>
           <li class="page-item"><a href="https://signup.westsoundbrewers.com/">Join WSB Club</a></li>
+          <li class="page-item"><a href="<?php echo esc_url(site_url('/sample-page')); ?>">About</a></li>
           <?php if (is_user_logged_in()) { ?>
             <li class="page-item"><a href="<?php echo wp_logout_url(); ?>"
                 class="btn btn--small  btn--dark-orange float-left btn--with-photo">

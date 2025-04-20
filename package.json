@@ -14,7 +14,7 @@
   "license": "ISC",
   "dependencies": {
     "@wordpress/icons": "^9.41.0",
-    "@wordpress/scripts": "^30.15.0",
+    "@wordpress/scripts": "^30.7.0",
     "normalize.css": "^8.0.1"
   }
 }
