@@ -7,8 +7,16 @@
     "start": "wp-scripts start src/index.js",
     "dev": "wp-scripts start",
     "devFast": "wp-scripts start",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "plugin-zip": "wp-scripts plugin-zip"
   },
+	"files": [
+		"/build",
+    "/css",
+    "/our-blocks",
+		"/src",
+		"[^.]*"
+	],
   "keywords": [],
   "author": "",
   "license": "ISC",
