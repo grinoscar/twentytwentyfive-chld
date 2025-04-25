@@ -39,6 +39,13 @@ function remove_admin_bar() {
   }
 }
 
+function university_files() {
+  wp_enqueue_style('university_main_styles', get_theme_file_uri('/build/style-index.css'));
+  wp_enqueue_style('university_extra_styles', get_theme_file_uri('/build/index.css'));
+}
+
+add_action('wp_enqueue_scripts', 'university_files');
+
 class PlaceholderBlock {
   function __construct($name) {
     $this->name = $name;
@@ -58,6 +65,13 @@ class PlaceholderBlock {
       'editor_script' => $this->name,
       'render_callback' => [$this, 'ourRenderCallback']
     ));
+
+    register_nav_menus(
+      array(
+        'logged-in' => __( 'Logged In Menu' ),
+        'logged-out' => __( 'Logged Out Menu' )
+       )
+     );
   }
 }
 
@@ -75,3 +89,17 @@ function myallowedblocks($allowed_block_types, $editor_context) {
 
 // Uncomment the line below if you actually want to restrict which block types are allowed
 //add_filter('allowed_block_types_all', 'myallowedblocks', 10, 2);
+
+// custom navigation???
+function my_wp_nav_menu_args( $args = '' ) {
+  if( is_user_logged_in() ) {
+  // Logged in menu to display
+  $args['menu'] = 3067;
+   
+  } else {
+  // Non-logged-in menu to display
+  $args['menu'] = 3061;
+  }
+  return $args;
+  }
+  add_filter( 'wp_nav_menu_args', 'my_wp_nav_menu_args' );
