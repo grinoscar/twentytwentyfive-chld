@@ -90,16 +90,16 @@ function myallowedblocks($allowed_block_types, $editor_context) {
 // Uncomment the line below if you actually want to restrict which block types are allowed
 //add_filter('allowed_block_types_all', 'myallowedblocks', 10, 2);
 
-// custom navigation???
-function my_wp_nav_menu_args( $args = '' ) {
-  if( is_user_logged_in() ) {
-  // Logged in menu to display
-  $args['menu'] = 3067;
+// // custom navigation???
+// function my_wp_nav_menu_args( $args = '' ) {
+//   if( is_user_logged_in() ) {
+//   // Logged in menu to display
+//   $args['menu'] = 3067;
    
-  } else {
-  // Non-logged-in menu to display
-  $args['menu'] = 3061;
-  }
-  return $args;
-  }
-  add_filter( 'wp_nav_menu_args', 'my_wp_nav_menu_args' );
+//   } else {
+//   // Non-logged-in menu to display
+//   $args['menu'] = 3061;
+//   }
+//   return $args;
+//   }
+//   add_filter( 'wp_nav_menu_args', 'my_wp_nav_menu_args' );
