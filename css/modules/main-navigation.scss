@@ -34,7 +34,7 @@
 .main-navigation a {
   display: block;
   padding: 10px 20px;
-  color: #121212;
+  color: $mainBlue;
   text-decoration: none;
   font-weight: 300;
   @include atMedium {
@@ -45,5 +45,5 @@
 
 .main-navigation .current-menu-item a,
 .main-navigation a:hover {
-  color: $beige;
+  color: $lightOrange;
 }
