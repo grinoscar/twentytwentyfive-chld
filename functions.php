@@ -51,34 +51,13 @@ function university_files()
 
 add_action('wp_enqueue_scripts', 'university_files');
 
-class PlaceholderBlock
-{
-  function __construct($name)
-  {
-    $this->name = $name;
-    add_action('init', [$this, 'onInit']);
-  }
-
-  function ourRenderCallback($attributes, $content)
-  {
-    ob_start();
-    require get_theme_file_path("/our-blocks/{$this->name}.php");
-    return ob_get_clean();
-  }
-
-  function onInit()
-  {
-    wp_register_script($this->name, get_stylesheet_directory_uri() . "/our-blocks/{$this->name}.js", array('wp-blocks', 'wp-editor'));
-
-    register_block_type("ourblocktheme/{$this->name}", array(
-      'editor_script' => $this->name,
-      'render_callback' => [$this, 'ourRenderCallback']
-    ));
-
-  }
+function wsb_new_blocks() {
+  register_block_type_from_metadata(__DIR__ . 'build/footer');
+  register_block_type_from_metadata(__DIR__ . 'build/header');
 }
 
-new PlaceholderBlock("header");
+add_action('init', 'wsb_new_blocks');
+// new PlaceholderBlock("header");
 
 register_nav_menus(
   array(
@@ -89,13 +68,15 @@ register_nav_menus(
 
 function myallowedblocks($allowed_block_types, $editor_context)
 {
+
   // If you are on a page/post editor screen
   if (!empty($editor_context->post)) {
     return $allowed_block_types;
   }
 
   // if you are on the FSE screen
-  return array('ourblocktheme/header', 'ourblocktheme/footer', 'wsb-user-navigation-block/wsb-nav');
+  return $allowed_block_types;
+  // return array('wsbtheme/header', 'wsbtheme/footer', 'wsb-user-navigation-block/wsb-nav');
 }
 
 // Uncomment the line below if you actually want to restrict which block types are allowed

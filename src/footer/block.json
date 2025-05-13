@@ -1,0 +1,8 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "wsbtheme/footer",
+  "title": "WSB custom footer",
+  "editorScript": "file:./index.js",
+  "render": "file:./render.php"
+}
