@@ -4,19 +4,19 @@
  *
  */
 
-function wsb_2025_enqueue_styles()
-{
-  $parent_style = 'twentytwentyfive-style';
-  wp_enqueue_style($parent_style, get_template_directory_uri() . '/style.css');
-  wp_enqueue_style(
-    'child-style',
-    get_stylesheet_directory_uri() . '/style.css',
-    array($parent_style),
-    wp_get_theme()->get('Version')
-  );
-}
-
-add_action('wp_enqueue_scripts', 'wsb_2025_enqueue_styles');
+ function wsb_2025_enqueue_styles()
+ {
+   $parent_style = 'twentytwentyfive-style';
+   wp_enqueue_style($parent_style, get_template_directory_uri() . '/style.css');
+   wp_enqueue_style(
+     'child-style',
+     get_stylesheet_directory_uri() . '/style.css',
+     array($parent_style),
+     wp_get_theme()->get('Version')
+   );
+ }
+ 
+ add_action('wp_enqueue_scripts', 'wsb_2025_enqueue_styles');
 
 /**
  * WordPress function for redirecting users on login based on user role
@@ -51,9 +51,30 @@ function university_files()
 
 add_action('wp_enqueue_scripts', 'university_files');
 
+// Customize Login Screen
+add_filter('login_headerurl', 'ourHeaderUrl');
+
+function ourHeaderUrl() {
+  return esc_url(site_url('/'));
+}
+
+add_action('login_enqueue_scripts', 'ourLoginCSS');
+
+function ourLoginCSS() {
+  wp_enqueue_style('university_main_styles', get_theme_file_uri('/build/style-index.css'));
+  wp_enqueue_style('university_extra_styles', get_theme_file_uri('/build/index.css'));
+}
+
+add_filter('login_headertitle', 'ourLoginTitle');
+
+function ourLoginTitle() {
+  return get_bloginfo('name');
+}
+
+// Register our new blocks
 function wsb_new_blocks() {
-  register_block_type_from_metadata(__DIR__ . 'build/footer');
-  register_block_type_from_metadata(__DIR__ . 'build/header');
+  register_block_type_from_metadata(__DIR__ . '/build/footer');
+  register_block_type_from_metadata(__DIR__ . '/build/header');
 }
 
 add_action('init', 'wsb_new_blocks');
@@ -66,17 +87,14 @@ register_nav_menus(
   )
 );
 
-function myallowedblocks($allowed_block_types, $editor_context)
-{
-
+function myallowedblocks($allowed_block_types, $editor_context) {
   // If you are on a page/post editor screen
   if (!empty($editor_context->post)) {
     return $allowed_block_types;
   }
 
   // if you are on the FSE screen
-  return $allowed_block_types;
-  // return array('wsbtheme/header', 'wsbtheme/footer', 'wsb-user-navigation-block/wsb-nav');
+  return array('wsbtheme/header', 'wsbtheme/footer');
 }
 
 // Uncomment the line below if you actually want to restrict which block types are allowed
